@@ -1,0 +1,11 @@
+new_local_repository(
+	name = "linux_libs",
+	path = "/usr/local/lib",
+	build_file_content = """
+cc_library(
+	name = "gpiod",
+	srcs = ["libgpiodcxx.so"],
+	visibility = ["//visibility:public"],
+)
+""",
+)
