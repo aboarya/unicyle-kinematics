@@ -71,10 +71,10 @@ class PIDController
 
   inline double RegulateRotationRate(double &w_desired, double &w_actual)
   {
-    return kp_ * (w_desired - w_actual);
+    return 2.25 * (w_desired - w_actual);
   };
   
-  double kp_ = .5;
+  double kp_ = 2.5;
   double e_prime_ = 0;
   
 };
@@ -177,7 +177,7 @@ class ControlAgent
 	    ) /
       (2 * odometry_.wheel_radius_m_);
 
-    std::cout << " w_r = " << w_r_ << " and w_l = " << w_l_ << std::endl;
+    //std::cout << " w_r = " << w_r_ << " and w_l = " << w_l_ << std::endl;
   };
 
   void RegulateActuators()
@@ -189,18 +189,15 @@ class ControlAgent
 	odometry_.encoder_l_.CalculateRotationRate();
 	
 	// use PID regulator to stabilize the power output
-	// to the motors using the error as the duty cycle
-	motor_r_.SetSpeed(
-			  pid_controller_.RegulateRotationRate(
+	// to the motors using the error as the duty cycle	
+
+	motor_r_.SetSpeed(pid_controller_.RegulateRotationRate(
 							       w_r_,
-							       odometry_.encoder_r_.rotation_rate_)
-			  );
+							       odometry_.encoder_r_.rotation_rate_));
 	
-	motor_l_.SetSpeed(
-			  pid_controller_.RegulateRotationRate(
-							       w_l_,
-							       odometry_.encoder_l_.rotation_rate_)
-			  );
+	motor_l_.SetSpeed(pid_controller_.RegulateRotationRate(
+							    w_l_,
+							    odometry_.encoder_l_.rotation_rate_));
 	
 	std::this_thread::sleep_for( inner_loop_window_ ); // 10 milliseconds
       }

@@ -47,7 +47,7 @@ void Encoder::CalculateDistanceTraveled()
 
       std::this_thread::sleep_for( time_window_ ); // 100 milliseconds
 
-      std::cout << " <<<<<<<<<<<<<<<<<>>>>>>> distance_traveled " << distance_traveled_ << std::endl;
+      //      std::cout << " <<<<<<<<<<<<<<<<<>>>>>>> distance_traveled " << distance_traveled_ << std::endl;
     }
 }
 
@@ -69,6 +69,6 @@ void Encoder::CalculateRotationRate()
       rotation_rate_ = (current_distance_ - prev_distance_) * 10.; // in seconds
       prev_distance_ = current_distance_;
 
-      std::cout << " >>>>>>> distance_traveled " << distance_traveled_ << " and current distance " << current_distance_ << " and rotation rate " << rotation_rate_ << std::endl;
+      //std::cout << " >>>>>>> distance_traveled " << distance_traveled_ << " and current distance " << current_distance_ << " and rotation rate " << rotation_rate_ << std::endl;
       //}
 }

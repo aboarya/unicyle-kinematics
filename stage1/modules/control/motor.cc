@@ -10,10 +10,7 @@ Motor::Motor(uint8_t speed_pin, uint8_t control_pin_a, uint8_t control_pin_b) :
   speed_pin_(speed_pin),
   control_pin_a_(control_pin_a, output_),
   control_pin_b_(control_pin_b, output_)
-{
-  this->speed_ = 50.;  // in Khz
-  this->duty_cycle = 5.; // in percent
-}
+{}
 
 void Motor::Run(void)
 {
@@ -41,7 +38,7 @@ Motor::~Motor()
   this->control_pin_b_.output(0);
 }
 
-void Motor::SetSpeed(double duty_cyle)
+void Motor::SetSpeed(double duty_cycle)
 {
   this->speed_pin_.set_duty_cycle(duty_cycle);
 }

@@ -17,8 +17,7 @@ class Motor
   void DecreaseSpeed();
   
  private:
-  double speed_;
-  double duty_cycle;
+  
   Pwm speed_pin_;
   Gpio control_pin_a_;
   Gpio control_pin_b_;

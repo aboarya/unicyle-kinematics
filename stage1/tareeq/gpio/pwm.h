@@ -27,13 +27,13 @@ class Pwm : public Gpio
  private:
 
 
-  double duty_cycle_;
+  const double max_cycle_ = 100.;
   double frequency_;
-  double basetime_;
-  double slicetime_;
-  struct timespec req_on_, req_off_;
+  double base_time_;
+  double slice_time_;
+  double duty_cycle_;
 
-  void full_sleep(struct timespec &req);
+  void sleep();
   
 };
 

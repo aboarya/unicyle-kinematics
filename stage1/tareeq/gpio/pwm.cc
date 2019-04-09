@@ -12,38 +12,39 @@ Pwm::Pwm(const uint32_t& pin_number) : Gpio(pin_number, output_)
 
 void Pwm::configure(void)
 {
-  this->frequency_  = 50.0;
-  this->duty_cycle_ = 5.0;
-  this->basetime_   = 1.0;
-  this->slicetime_  = 0.01;
+  this->frequency_  = 100.0;
+  this->duty_cycle_ = 25.;
+  this->base_time_ = 1.0 / this->frequency_;
+  this->slice_time_ = this->base_time_ / this->max_cycle_;
   
 }
 
 void Pwm::calculate_times(void)
 {
-  long long usec;
+  //  long long usec;
     
-  usec = (long long) (this->duty_cycle_ * this->slicetime_ * (double) 1000.0);
-  this->req_on_.tv_sec = (int) (usec / 1000000LL);
-  usec -= (long long) this->req_on_.tv_sec * 1000000LL;
-  this->req_on_.tv_sec = (long) usec * 1000L;
+  // usec = (long long) (this->duty_cycle_ * this->slicetime_ * (double) 1000.0);
+  // this->req_on_.tv_sec = (int) (usec / 1000000LL);
+  // usec -= (long long) this->req_on_.tv_sec * 1000000LL;
+  // this->req_on_.tv_sec = (long) usec * 1000L;
   
-  usec = (long long) ((100.0 - this->duty_cycle_) * this->slicetime_ * 1000.0);
-  this->req_off_.tv_sec = (int) (usec / 1000000LL);
-  usec -= (long long) this->req_off_.tv_sec * 1000000LL;
-  this->req_off_.tv_sec = (long) usec * 1000L;
+  // usec = (long long) ((100.0 - this->duty_cycle_) * this->slicetime_ * 1000.0);
+  // this->req_off_.tv_sec = (int) (usec / 1000000LL);
+  // usec -= (long long) this->req_off_.tv_sec * 1000000LL;
+  // this->req_off_.tv_sec = (long) usec * 1000L;
     
 }
 
 void Pwm::set_frequency(double freq)
 {
-  this->basetime_ = 1000.0 / freq;
-  this->slicetime_ = this->basetime_ / 100.0;
-  this->calculate_times();
+  this->base_time_ = 1.0 / freq;
+  this->slice_time_ = this->base_time_ / this->max_cycle_;
+
 }
 
 void Pwm::set_duty_cycle(double duty_cycle)
 {
+
   this->duty_cycle_ = duty_cycle;
   if (duty_cycle < 0.0)
     this->duty_cycle_ = 0.0;
@@ -51,7 +52,6 @@ void Pwm::set_duty_cycle(double duty_cycle)
   if (duty_cycle_ > 100.0)
     this->duty_cycle_ = 100.0;
 
-  this->calculate_times();
   
 }
 
@@ -61,16 +61,16 @@ void Pwm::pulse()
     {
       //std::cout << " frequency is " << this->frequency_;
  
-      if (this->duty_cycle_ > 0.0)
+      if (this->duty_cycle_ >= 0.0)
 	{
 	  this->output(1);
-	  this->full_sleep(this->req_on_);
+	  std::this_thread::sleep_for(std::chrono::duration<double>(this->duty_cycle_ * this->slice_time_));
 	}
       
-      if (this->duty_cycle_ < 100.0)
+      if (this->duty_cycle_ <= this->max_cycle_)
 	{
 	  this->output(0);
-	  this->full_sleep(this->req_off_);
+	  std::this_thread::sleep_for(std::chrono::duration<double>((this->max_cycle_ - this->duty_cycle_) * this->slice_time_));
 	}
     }
 
@@ -78,13 +78,6 @@ void Pwm::pulse()
   this->output(0); // turn off
 }
 
-void Pwm::full_sleep(struct timespec &req)
-{
-  struct timespec rem = {0};
-
-  if (nanosleep(&req, &rem) == -1)
-    this->full_sleep(rem);
-}
 
 Pwm::~Pwm()
 {
