@@ -28,8 +28,11 @@ Abstract Class for all GPIO Pins
 class Gpio
 {
  public:
-  Gpio(){};
- Gpio(const uint32_t &line_number, const std::string &direction) :
+  Gpio() = default;
+  ~Gpio() {this->Stop();};
+  
+ Gpio(const uint32_t &line_number,
+      const std::string &direction):
   line_number_(line_number),
     direction_(direction)
     {
@@ -55,27 +58,26 @@ class Gpio
       
     };
   
-  //~Gpio(){this->output(0);};
- 
-
   
-  void sleep(uint8_t millis)
+  void Stop()
   {
-    std::this_thread::sleep_for(std::chrono::milliseconds(millis));
+    this->is_running_ = false;
   };
-  
+
   /* sets the dervied pin as a GPIO Output pin */
-  void output(int value)
+  inline void Output(int value)
   {
     this->line_.set_value(value);
   };
-  
-  bool test(int value)
-  {
-    return (this->line_.get_value() == value);
-  };
 
-  void set_line(gpiod::line &line){line_ = line;};
+  /* 
+     boolean used to activate
+     and deactivate the robot
+  */
+  inline const bool &IsRunning()
+    {
+      return is_running_;
+    };
 
  protected:
   gpiod::line line_;
@@ -84,8 +86,11 @@ class Gpio
   /** gpio pin number, not board pin number */
   uint32_t line_number_;
 
- private: 
-  int request_type_;
+  /* set by child classes */
+  bool is_running_;
+  
+ private:
+  int  request_type_;
   std::string direction_;
   std::string consumer_;
   

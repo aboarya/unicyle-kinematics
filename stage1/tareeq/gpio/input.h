@@ -3,20 +3,22 @@
 
 #include "gpio.h"
 
-const std::string direction("input");
+const std::string input_("input");
 
 class Input : public Gpio
 {
  public:
-  Input(){};
- Input(const uint32_t &line_number);
-  ~Input(){};
+  Input()  = default;
+  ~Input() = default;
+  
+ Input(const uint32_t& line_number): Gpio(line_number, input_){};
 
-  void wait_for_edge();
-  const long long get_total_count();
+  void WaitForEdge();
+
+  const long& GetTotalCount();
   
  private:
-  long long total_count_ = 0;
+  long total_count_ = 0;
   gpiod::line_event event_;
 };
 

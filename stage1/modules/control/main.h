@@ -29,7 +29,17 @@ class Odometry
     //std::cout << " d_left " << d_left_ << " d_right " << d_left_ << std::endl;
   
     d_center_ = (d_left_ + d_right_) / 2.0;
+
   };
+
+  void UpdateRotationRates()
+  {
+    rotation_rate_r_ = encoder_r_.GetRotationRate();
+    rotation_rate_l_ = encoder_l_.GetRotationRate();
+    //std::cout << " rotation rate r = " << rotation_rate_r_ << " and rotation rate l " << rotation_rate_l_ << std::endl;
+  };
+
+  
 
   Encoder encoder_r_{Encoder(17)}; // hardcode gpio pins for now
   Encoder encoder_l_{Encoder(18)}; // hardcode gpio pins for now
@@ -37,7 +47,9 @@ class Odometry
   double d_right_  = 0;
   double d_left_   = 0;
   double d_center_ = 0;
-  
+
+  double rotation_rate_r_ = 0.;
+  double rotation_rate_l_ = 0.;
   double d_baseline_ = 10 / 100.; // in meters
   double wheel_radius_m_ = encoder_r_.wheel_radius_m_;
   
@@ -66,15 +78,21 @@ class PIDController
   {
     ComputeError(target_state, current_state);
     current_state.omega_ = kp_ * e_prime_;
+    //std::cout << " omega = " << current_state.omega_ << " and error = " << e_prime_ << std::endl;
 
   };
 
-  inline double RegulateRotationRate(double &w_desired, double &w_actual)
+  inline double RegulateRotationRate(const double &w_desired, const double &w_actual)
   {
-    return 2.25 * (w_desired - w_actual);
+    //std::cout << "setting new freq " << -.5 * (w_desired - w_actual) << std::endl;
+
+    double tmp = (w_desired - w_actual);
+    if (tmp < 0.)
+      return -.35 * (w_desired - w_actual);
+    return .35 * (w_desired - w_actual);
   };
   
-  double kp_ = 2.5;
+  double kp_ = .5;
   double e_prime_ = 0;
   
 };
@@ -89,13 +107,13 @@ class ControlAgent
     {
 
       std::cout << "starting control agent" << std::endl;
-      active_state_.x_ = 5;
+      active_state_.x_ = .5;
       active_state_.y_ = 0;
-      active_state_.theta_rad_ = 0;
+      active_state_.theta_rad_ = 1.5708;
       
-      target_state_.x_ = 1;
-      target_state_.y_ = 15;
-      target_state_.theta_rad_ = 1.5708;
+      target_state_.x_ = -.5;
+      target_state_.y_ = 2.0;
+      target_state_.theta_rad_ = 2.35619;
 
       this->is_running_ = true;
 
@@ -185,19 +203,20 @@ class ControlAgent
     while(this->is_running_)
       {
 	// caluclate actual rotation rate of the wheels
-	odometry_.encoder_r_.CalculateRotationRate();
-	odometry_.encoder_l_.CalculateRotationRate();
+	//odometry_.encoder_r_.CalculateRotationRate();
+	//odometry_.encoder_l_.CalculateRotationRate();
 	
 	// use PID regulator to stabilize the power output
 	// to the motors using the error as the duty cycle	
 
+	odometry_.UpdateRotationRates();
 	motor_r_.SetSpeed(pid_controller_.RegulateRotationRate(
 							       w_r_,
-							       odometry_.encoder_r_.rotation_rate_));
+							       odometry_.rotation_rate_r_));
 	
 	motor_l_.SetSpeed(pid_controller_.RegulateRotationRate(
 							    w_l_,
-							    odometry_.encoder_l_.rotation_rate_));
+							    odometry_.rotation_rate_l_));
 	
 	std::this_thread::sleep_for( inner_loop_window_ ); // 10 milliseconds
       }
@@ -241,8 +260,8 @@ class ControlAgent
     std::cout << "       y        = " << active_state_.y_ << std::endl;
     std::cout << "       theta    = " << active_state_.theta_rad_ << std::endl;
     std::cout << "----------------" << std::endl;
-    std::cout << "actual w_r      = " << odometry_.encoder_r_.rotation_rate_ << std::endl;
-    std::cout << "actual w_l      = " << odometry_.encoder_l_.rotation_rate_ << std::endl;
+    std::cout << "actual w_r      = " << odometry_.rotation_rate_r_ << std::endl;
+    std::cout << "actual w_l      = " << odometry_.rotation_rate_l_ << std::endl;
     std::cout << " ---------------" << std::endl;
     std::cout << "target w_r      = " << w_r_ << std::endl;
     std::cout << "target w_l      = " << w_l_ << std::endl;
@@ -266,8 +285,8 @@ class ControlAgent
   Motor motor_l_{Motor(12, 13, 6)}; // hardcode gpio pins for now
 
   // out loop window (omega regulator)
-  std::chrono::milliseconds outer_loop_window_ = std::chrono::milliseconds(100);
+  std::chrono::milliseconds outer_loop_window_ = std::chrono::milliseconds(50);
 
   // inner loop window (motor speed regulator)
-  std::chrono::milliseconds inner_loop_window_ = std::chrono::milliseconds(10);
+  std::chrono::milliseconds inner_loop_window_ = std::chrono::milliseconds(5);
 };

@@ -37,7 +37,7 @@ int main(int argc, char **argv)
   // wait for ctrl-c
   //pause();
 
-  std::chrono::seconds s = std::chrono::seconds(2);
+  std::chrono::milliseconds s(100);
   while (true)
     {
       agent.log();

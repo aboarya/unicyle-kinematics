@@ -9,23 +9,19 @@ class Pwm : public Gpio
 {
   
  public:
-  Pwm(){};
+  Pwm() = default;
+  ~Pwm() = default;
+  
   Pwm(const uint32_t &line_number);
-  ~Pwm();
-  
-  void configure(void);
-  
-  void calculate_times(void);
 
-  void set_frequency(double freq);
+  void SetFrequency(double freq);
 
-  void pulse();
+  void Pulse();
 
-  void set_duty_cycle(double duty_cycle);
+  void SetDutyCycle(double duty_cycle);
 
-  bool   is_running_;
+  inline void CalculateDuration();
  private:
-
 
   const double max_cycle_ = 100.;
   double frequency_;
@@ -33,7 +29,8 @@ class Pwm : public Gpio
   double slice_time_;
   double duty_cycle_;
 
-  void sleep();
+  std::chrono::duration<double> on_duration_;
+  std::chrono::duration<double> off_duration_;
   
 };
 

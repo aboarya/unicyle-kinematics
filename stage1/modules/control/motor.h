@@ -7,14 +7,14 @@
 class Motor
 {
  public:
-  Motor(uint8_t speed_pin, uint8_t control_pin_a, uint8_t control_pin_b);
+  Motor();
   ~Motor();
+
+  Motor(uint8_t speed_pin, uint8_t control_pin_a, uint8_t control_pin_b);
+
   void Run();
-  void stop();
+  void Stop();
   void SetSpeed(double duty_cycle);
-  void sleep(int millis);
-  void IncreaseSpeed();
-  void DecreaseSpeed();
   
  private:
   

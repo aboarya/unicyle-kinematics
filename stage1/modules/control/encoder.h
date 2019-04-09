@@ -15,27 +15,28 @@ class Encoder
 
   void CalculateRotationRate();
   void CalculateDistanceTraveled();
+  
   const double GetDistanceTraveled();
-  const double   circumference_m_ = 6.0 / 100; // in meters
-  const double  wheel_radius_m_ = circumference_m_ / 2.; // in meters
-  double   rotation_rate_ = 0.; // in radians / second
+  const double GetRotationRate();
+  
   
  private:
   bool is_running_;
   Input input_pin_;
 
-
+  const double   circumference_m_ = 6.0 / 100; // in meters
+  const double  wheel_radius_m_ = circumference_m_ / 2.; // in meters
   
   const uint32_t line_number_;
   const uint32_t num_slots_ = 20;
 
+  double   rotation_rate_ = 0.; // in radians / second
+  
   double   distance_traveled_   = 0.;
-
   double   current_distance_    = 0.;
   double   prev_distance_       = 0.;
 
-  
-    std::chrono::milliseconds time_window_ = std::chrono::milliseconds(100); // 100 milliseconds
+  std::chrono::milliseconds time_window_ = std::chrono::milliseconds(1); // 1 milliseconds
 };
 
 #endif // CONTROL_ENCODER

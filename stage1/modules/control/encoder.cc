@@ -22,6 +22,7 @@ void Encoder::Run()
   
   std::thread rps_routine(&Encoder::CalculateDistanceTraveled, this);
   rps_routine.detach();
+  
 
 }
 
@@ -44,10 +45,20 @@ void Encoder::CalculateDistanceTraveled()
       distance_traveled_ = (2.0 * M_PI *
 			    static_cast<double>(input_pin_.get_total_count() / num_slots_)
 			    * wheel_radius_m_); // in meters
+      
+      current_distance_ = distance_traveled_;
+      
+      // rotate rate = distance / 1 ms * (1000 ms / 1 second) 
+      if (current_distance_ != prev_distance_)
+	{
+	  //std::cout << this->line_number_ << "-- current distance " << current_distance_ << " and previous distance = " << prev_distance_  << "and rotation rate " << rotation_rate_ << std::endl;
+	  rotation_rate_ = (current_distance_ - prev_distance_) * 1000; // in seconds
+	  prev_distance_ = current_distance_;
+	   
+	}
 
-      std::this_thread::sleep_for( time_window_ ); // 100 milliseconds
+      std::this_thread::sleep_for( time_window_); // 1 millisecond
 
-      //      std::cout << " <<<<<<<<<<<<<<<<<>>>>>>> distance_traveled " << distance_traveled_ << std::endl;
     }
 }
 
@@ -56,12 +67,16 @@ const double Encoder::GetDistanceTraveled()
   return distance_traveled_ ;
 }
 
+const double Encoder::GetRotationRate()
+{
+  return rotation_rate_ ;
+}
 
 void Encoder::CalculateRotationRate()
 {
-  //  while (this->is_running_)
+  // while (this->is_running_)
   //{
-      std::this_thread::sleep_for( time_window_ ); // 100 milliseconds
+  //std::this_thread::sleep_for( time_window_ ); // 100 milliseconds
       
       current_distance_ = distance_traveled_;
 
@@ -69,6 +84,6 @@ void Encoder::CalculateRotationRate()
       rotation_rate_ = (current_distance_ - prev_distance_) * 10.; // in seconds
       prev_distance_ = current_distance_;
 
-      //std::cout << " >>>>>>> distance_traveled " << distance_traveled_ << " and current distance " << current_distance_ << " and rotation rate " << rotation_rate_ << std::endl;
+      std::cout << " >>>>>>> distance_traveled " << distance_traveled_ << " and current distance " << current_distance_ << " and rotation rate " << rotation_rate_ << std::endl;
       //}
 }

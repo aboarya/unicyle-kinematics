@@ -5,29 +5,23 @@
 
 #include "input.h"
 
-const std::string input_("input");
-
-Input::Input(const uint32_t& line_number): Gpio(line_number, input_)
+void Input::WaitForEdge() 
 {
-  
-}
 
-void Input::wait_for_edge() 
-{
-  //line_ = chip_.get_line(line_number_);
-  //line_.request(request_);
-  while (line_.event_wait(std::chrono::seconds(1)))
+  while(this->IsRunning())
     {
-      event_ = line_.event_read();
-      if (event_.event_type == gpiod::line_event::FALLING_EDGE)
+      while (line_.event_wait(std::chrono::milliseconds(1)))
 	{
-	  //std::cout << "OK " << std::endl;
-	  total_count_++;
+	  event_ = line_.event_read();
+	  if (event_.event_type == gpiod::line_event::FALLING_EDGE)
+	    {
+	      total_count_++;
+	    }
 	}
     }
 }
 
-const long long Input::get_total_count()
+const long& Input::GetTotalCount()
 {
   return total_count_;
 }

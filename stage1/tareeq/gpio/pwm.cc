@@ -5,82 +5,64 @@ const std::string output_("output");
 
 Pwm::Pwm(const uint32_t& pin_number) : Gpio(pin_number, output_)
 {
-  this->configure();
-  this->calculate_times();
+  // some basic default values which will be
+  // overriden by the PID controller
+  this->frequency_  = 100.0;
+  this->duty_cycle_ = 10.;
+  this->base_time_ = 1.0 / this->frequency_;
+  this->slice_time_ = this->base_time_ / this->max_cycle_;
+  this->CalculateDuration();
+  
+  // activate the robot
   this->is_running_ = true;
 }
 
-void Pwm::configure(void)
-{
-  this->frequency_  = 100.0;
-  this->duty_cycle_ = 25.;
-  this->base_time_ = 1.0 / this->frequency_;
-  this->slice_time_ = this->base_time_ / this->max_cycle_;
-  
-}
-
-void Pwm::calculate_times(void)
-{
-  //  long long usec;
-    
-  // usec = (long long) (this->duty_cycle_ * this->slicetime_ * (double) 1000.0);
-  // this->req_on_.tv_sec = (int) (usec / 1000000LL);
-  // usec -= (long long) this->req_on_.tv_sec * 1000000LL;
-  // this->req_on_.tv_sec = (long) usec * 1000L;
-  
-  // usec = (long long) ((100.0 - this->duty_cycle_) * this->slicetime_ * 1000.0);
-  // this->req_off_.tv_sec = (int) (usec / 1000000LL);
-  // usec -= (long long) this->req_off_.tv_sec * 1000000LL;
-  // this->req_off_.tv_sec = (long) usec * 1000L;
-    
-}
-
-void Pwm::set_frequency(double freq)
+void Pwm::SetFrequency(double freq)
 {
   this->base_time_ = 1.0 / freq;
   this->slice_time_ = this->base_time_ / this->max_cycle_;
-
+  this->CalculateDuration();
 }
 
-void Pwm::set_duty_cycle(double duty_cycle)
+inline void Pwm::CalculateDuration()
+{
+  on_duration_ = std::chrono::duration<double>(this->duty_cycle_ * this->slice_time_);
+  off_duration_ = std::chrono::duration<double>((this->max_cycle_ - this->duty_cycle_) * this->slice_time_);
+}
+
+void Pwm::SetDutyCycle(double duty_cycle)
 {
 
   this->duty_cycle_ = duty_cycle;
+
+  // ensure duty cycle is a percentage
   if (duty_cycle < 0.0)
     this->duty_cycle_ = 0.0;
 
   if (duty_cycle_ > 100.0)
     this->duty_cycle_ = 100.0;
 
-  
+  this->CalculateDuration();
 }
 
-void Pwm::pulse()
+void Pwm::Pulse()
 {
-  while (this->is_running_)
+  while (this->IsRunning())
     {
-      //std::cout << " frequency is " << this->frequency_;
- 
+
       if (this->duty_cycle_ >= 0.0)
 	{
-	  this->output(1);
-	  std::this_thread::sleep_for(std::chrono::duration<double>(this->duty_cycle_ * this->slice_time_));
+	  this->Output(1);
+	  std::this_thread::sleep_for(on_duration_);
 	}
       
       if (this->duty_cycle_ <= this->max_cycle_)
 	{
-	  this->output(0);
-	  std::this_thread::sleep_for(std::chrono::duration<double>((this->max_cycle_ - this->duty_cycle_) * this->slice_time_));
+	  this->Output(0);
+	  std::this_thread::sleep_for(off_duration_);
 	}
     }
 
   //end of thread
-  this->output(0); // turn off
+  this->Output(0); // turn off
 }
-
-
-Pwm::~Pwm()
-{
-  this->is_running_ = false;
-  
-};
