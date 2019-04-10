@@ -6,23 +6,25 @@ namespace {
   class PwmTest: public testing::Test {
   protected:
     void SetUp() override {
-      pwm_(12);
+      
     }
 
-    Pwm pwm_;
+    Pwm pwm_{12};
+  };
+
+
+  TEST_F(PwmTest, SetDutyCycle) {
+
+    pwm_.SetDutyCycle(50);
+    EXPECT_EQ(50, pwm_.GetDutyCycle());
+  
+
+    pwm_.SetDutyCycle(-10);
+    EXPECT_EQ(0, pwm_.GetDutyCycle());
+
+    pwm_.SetDutyCycle(150);
+    EXPECT_EQ(100, pwm_.GetDutyCycle());
+    
   }
-}
 
-TEST_F(PwmTests, SetDutyCycle) {
-
-  pwm->SetDutyCycle(50);
-  ASSERT_EXPECT_EQ(50, pwm->GetDutyCycle());
-
-
-  pwm->SetDutyCycle(-10);
-  ASSERT_EXPECT_EQ(0, pwm->GetDutyCycle());
-
-  pwm->SetDutyCycle(150);
-  ASSERT_EXPECT_EQ(100, pwm->GetDutyCycle());
-
-}
+} // namespace

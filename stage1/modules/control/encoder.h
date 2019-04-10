@@ -16,9 +16,9 @@ class Encoder
   void CalculateRotationRate();
   void CalculateDistanceTraveled();
   
-  const double GetDistanceTraveled();
-  const double GetRotationRate();
-  
+  const double &GetDistanceTraveled();
+  const double &GetRotationRate();
+  const double &GetWheelRadius();  
   
  private:
   bool is_running_;

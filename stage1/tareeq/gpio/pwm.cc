@@ -3,7 +3,7 @@
 
 const std::string output_("output");
 
-Pwm::Pwm(const uint32_t& pin_number) : Gpio(pin_number, output_)
+Pwm::Pwm(const int& pin_number) : Gpio(pin_number, output_)
 {
   // some basic default values which will be
   // overriden by the PID controller

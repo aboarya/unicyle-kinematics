@@ -62,12 +62,17 @@ void Encoder::CalculateDistanceTraveled()
     }
 }
 
-const double Encoder::GetDistanceTraveled()
+const double &Encoder::GetWheelRadius()
+{
+  return wheel_radius_m_ ;
+}
+
+const double &Encoder::GetDistanceTraveled()
 {
   return distance_traveled_ ;
 }
 
-const double Encoder::GetRotationRate()
+const double &Encoder::GetRotationRate()
 {
   return rotation_rate_ ;
 }

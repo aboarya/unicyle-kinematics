@@ -4,7 +4,8 @@ cc_test (
         "pwm_test.cc",
     ],
     deps = [
+        "//tareeq/gpio:gpio",
         "@gtest//:gtest",
-        "@gtest//:gtest_main"
+        "@gtest//:gtest_main",
     ],
 )

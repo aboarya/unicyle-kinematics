@@ -12,7 +12,7 @@ class Pwm : public Gpio
   Pwm() = default;
   ~Pwm() = default;
   
-  Pwm(const uint32_t &line_number);
+  Pwm(const int& line_number);
 
   void SetFrequency(double freq);
 

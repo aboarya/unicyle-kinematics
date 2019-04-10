@@ -51,7 +51,7 @@ class Odometry
   double rotation_rate_r_ = 0.;
   double rotation_rate_l_ = 0.;
   double d_baseline_ = 10 / 100.; // in meters
-  double wheel_radius_m_ = encoder_r_.wheel_radius_m_;
+  double wheel_radius_m_ = encoder_r_.GetWheelRadius();
   
 };
 
