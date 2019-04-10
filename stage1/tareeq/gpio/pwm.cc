@@ -30,6 +30,11 @@ inline void Pwm::CalculateDuration()
   off_duration_ = std::chrono::duration<double>((this->max_cycle_ - this->duty_cycle_) * this->slice_time_);
 }
 
+const double &Pwm::GetDutyCycle()
+{
+  return this->duty_cycle_;
+}
+
 void Pwm::SetDutyCycle(double duty_cycle)
 {
 

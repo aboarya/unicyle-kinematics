@@ -17,7 +17,7 @@ Encoder::Encoder(const uint32_t line_number): line_number_(line_number)
 
 void Encoder::Run()
 {
-  std::thread interrupt_routine(&Input::wait_for_edge, std::ref(this->input_pin_));
+  std::thread interrupt_routine(&Input::WaitForEdge, std::ref(this->input_pin_));
   interrupt_routine.detach();
   
   std::thread rps_routine(&Encoder::CalculateDistanceTraveled, this);
@@ -43,7 +43,7 @@ void Encoder::CalculateDistanceTraveled()
 
       //std::cout << "   total count " << input_pin_.get_total_count() << std::endl;
       distance_traveled_ = (2.0 * M_PI *
-			    static_cast<double>(input_pin_.get_total_count() / num_slots_)
+			    static_cast<double>(input_pin_.GetTotalCount() / num_slots_)
 			    * wheel_radius_m_); // in meters
       
       current_distance_ = distance_traveled_;

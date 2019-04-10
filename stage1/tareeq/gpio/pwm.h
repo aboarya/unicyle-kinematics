@@ -19,6 +19,7 @@ class Pwm : public Gpio
   void Pulse();
 
   void SetDutyCycle(double duty_cycle);
+  const double &GetDutyCycle();
 
   inline void CalculateDuration();
  private:
