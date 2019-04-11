@@ -1,39 +1,22 @@
-#ifndef PWMPIN_
-#define PWMPIN_
+#ifndef PWM_INTERFACE_
+#define PWM_INTERFACE_
 
-#include <iostream>
-
-#include "gpio.h"
-
-template <typename TChip, typename TLine, typename TLineRequest>
-  class Pwm : public Gpio<TChip,TLine,TLineRequest>
-{
+namespace tareeq {
+  namespace gpio {
+    class Pwm
+    {
+    public:
+      virtual ~Pwm() = default;
   
- public:
-  Pwm() = default;
-  ~Pwm() = default;
-  
-  Pwm(const int& line_number);
+      //
+      virtual void SetFrequency(double freq) = 0;
+      virtual void Pulse() = 0;
+      virtual void SetDutyCycle(double duty_cycle) = 0;
+      virtual const double &GetDutyCycle() = 0;
+      virtual inline void CalculateDuration() = 0;
+      
+    };
+  } // namespace gpio
+} // namespace tareeq
 
-  void SetFrequency(double freq);
-
-  void Pulse();
-
-  void SetDutyCycle(double duty_cycle);
-  const double &GetDutyCycle();
-
-  inline void CalculateDuration();
- private:
-
-  const double max_cycle_ = 100.;
-  double frequency_;
-  double base_time_;
-  double slice_time_;
-  double duty_cycle_;
-
-  std::chrono::duration<double> on_duration_;
-  std::chrono::duration<double> off_duration_;
-  
-};
-
-#endif // PWMPIN_
+#endif // PWM_INTERFACE_

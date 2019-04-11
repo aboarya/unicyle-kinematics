@@ -1,27 +1,10 @@
-#include <iostream>
-#include <chrono>
-#include <thread>
-#include <string>
+#include "input_impl.h"
 
-#include "input.h"
-
-void Input::WaitForEdge() 
-{
-
-  while(this->IsRunning())
+namespace tareeq {
+  namespace gpio {
+    std::unique_ptr<Input> MakeInputPin(const int& line_number)
     {
-      while (line_.event_wait(std::chrono::milliseconds(1)))
-	{
-	  event_ = line_.event_read();
-	  if (event_.event_type == gpiod::line_event::FALLING_EDGE)
-	    {
-	      total_count_++;
-	    }
-	}
+      return std::make_unique<InputImpl<gpiod::chip, gpiod::line, gpiod::line_request>>(line_number);
     }
-}
-
-const long& Input::GetTotalCount()
-{
-  return total_count_;
-}
+  } // namespace gpio  
+} // namespace tareeq
