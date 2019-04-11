@@ -11,7 +11,7 @@ namespace tareeq {
   namespace gpio {
     
     template <typename TChip, typename TLine, typename TLineRequest>
-      class PwmImpl : virtual public Pwm, public Gpio<TChip,TLine,TLineRequest>
+      class PwmImpl : public Pwm, public Gpio<TChip,TLine,TLineRequest>
     {
       // private members
       double frequency_;
