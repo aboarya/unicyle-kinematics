@@ -54,15 +54,15 @@ namespace tareeq {
       line_number_(line_number)
 	{
 	  
-	  chip_ = gpiod::chip(chip_number_, gpiod::chip::OPEN_BY_NUMBER);
+	  chip_ = TChip(chip_number_, TChip::OPEN_BY_NUMBER);
 	  
 	  if (direction == "output")
 	    {
-	      request_type_ = gpiod::line_request::DIRECTION_OUTPUT;
+	      request_type_ = TLineRequest::DIRECTION_OUTPUT;
 	    }
 	  else
 	    {
-	      request_type_ = gpiod::line_request::EVENT_BOTH_EDGES;
+	      request_type_ = TLineRequest::EVENT_BOTH_EDGES;
 	    }
 	  
 	  consumer_ = std::string("pin_number_") + std::to_string(line_number);
