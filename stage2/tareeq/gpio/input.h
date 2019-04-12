@@ -1,6 +1,8 @@
 #ifndef GPIO_INPUT_INTERFACE_
 #define GPIO_INPUT_INTERFACE_
 
+#include <memory>
+
 namespace tareeq {
   namespace gpio {
     class Input
@@ -13,6 +15,10 @@ namespace tareeq {
       virtual const long& GetTotalCount() = 0;
       
     };
+
+    // simple factor method
+    std::unique_ptr<Input> MakeInputPin();
+    
   } // namespace gpio
 } // namespace tareeq
 

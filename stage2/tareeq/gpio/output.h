@@ -1,6 +1,8 @@
 #ifndef GPIO_OUTPUT_INTERFACE_
 #define GPIO_OUTPUT_INTERFACE_
 
+#include <memory>
+
 namespace tareeq {
   namespace gpio {
     class Output
@@ -9,8 +11,13 @@ namespace tareeq {
       virtual ~Output() = default;
       
       //
-      virtual void OutputValue(int value) = 0;
+      virtual void On() = 0;
+      virtual void Off() = 0;
+      
     };
+
+    // simple factory method
+    std::unique_ptr<Output> MakeOutputPin();
   } // namespace gpio  
 } // namespace tareeq
 

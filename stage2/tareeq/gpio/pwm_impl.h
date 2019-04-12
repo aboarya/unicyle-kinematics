@@ -40,6 +40,12 @@ namespace tareeq {
 	  this->is_running_ = true;
 	};
 
+      virtual void Start()
+      {
+	std::thread t(&PwmImpl::Pulse, this);
+	t.detach();
+      };
+
       virtual const std::string &GetDirection()
       {
 	return direction_;
@@ -63,21 +69,27 @@ namespace tareeq {
 	return this->duty_cycle_;
       };
 
-      virtual void SetDutyCycle(double duty_cycle)
+      virtual void Stop()
+      {
+	this->GpioOutput(0);
+      };
+
+      virtual void SetSpeed(double speed)
       {
 	
-	this->duty_cycle_ = duty_cycle;
+	this->duty_cycle_ = speed;
 	
 	// ensure duty cycle is a percentage
-	if (duty_cycle < 0.0)
+	if (this->duty_cycle_ < 0.0)
 	  this->duty_cycle_ = 0.0;
 	
-	if (duty_cycle_ > 100.0)
+	if (this->duty_cycle_ > 100.0)
 	  this->duty_cycle_ = 100.0;
 	
 	this->CalculateDuration();
       };
 
+      
       virtual void Pulse()
       {
 	while (this->IsRunning())

@@ -1,28 +1,26 @@
-#ifndef RPI3_MOTOR_
-#define RPI3_MOTOR_
+#ifndef TAREEQ_MOTOR_
+#define TAREEQ_MOTOR_
 
-#include "tareeq/gpio/gpio.h"
-#include "tareeq/gpio/pwm.h"
+#include <memory>
 
-class Motor
-{
- public:
-  Motor();
-  ~Motor();
+namespace tareeq {
+  namespace control {
+    
+      class Motor
+    {
+    public:
+      
+      virtual ~Motor() = default;
 
-  Motor(uint8_t speed_pin, uint8_t control_pin_a, uint8_t control_pin_b);
+      virtual void Run() = 0;
+      virtual void Stop() = 0;
+      virtual void ApplyRotationRate(double rotation_rate) = 0;
+      
+    };
 
-  void Run();
-  void Stop();
-  void SetSpeed(double duty_cycle);
-  
- private:
-  
-  Pwm speed_pin_;
-  Gpio control_pin_a_;
-  Gpio control_pin_b_;
-  
-};
-
-
-#endif // RPI3_MOTOR_
+      // simple factor method
+      std::unique_ptr<Motor> MakeMotor();
+    
+  } // namespace control
+} // namespace tareeq
+#endif // TAREEQ_MOTOR_

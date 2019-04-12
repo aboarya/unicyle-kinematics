@@ -20,9 +20,14 @@ namespace tareeq {
 	return direction_;
       };
       
-      virtual void OutputValue(int value) 
+      virtual void On()
       {
-	this->line_.set_value(value);
+	this->GpioOutput(1);
+      };
+
+      virtual void Off()
+      {
+	this->GpioOutput(0);
       };
       
     };

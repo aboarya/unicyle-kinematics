@@ -74,14 +74,14 @@ namespace tareeq {
 
   TEST_F(PwmTest, SetDutyCycle) {
 
-    pwm_.SetDutyCycle(50);
+    pwm_.SetSpeed(50);
     EXPECT_EQ(50, pwm_.GetDutyCycle());
   
 
-    pwm_.SetDutyCycle(-10);
+    pwm_.SetSpeed(-10);
     EXPECT_EQ(0, pwm_.GetDutyCycle());
 
-    pwm_.SetDutyCycle(150);
+    pwm_.SetSpeed(150);
     EXPECT_EQ(100, pwm_.GetDutyCycle());
     
   }

@@ -2,8 +2,9 @@
 
 namespace tareeq {
   namespace gpio {
-    std::unique_ptr<Input> MakeInputPin(const int& line_number)
+    std::unique_ptr<Input> MakeInputPin()
     {
+      const int line_number = 12;
       return std::make_unique<InputImpl<gpiod::chip, gpiod::line, gpiod::line_request>>(line_number);
     }
   } // namespace gpio  
