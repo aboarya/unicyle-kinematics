@@ -11,10 +11,12 @@
 #)
 
 cc_test (
-    name = "actuator_test",
-    srcs = ["actuators_test.cc"],
+    name = "unicycle_actuator_test",
+    srcs = [
+        "unicycle_driver_test.cc",
+    ],
     deps = [
-        "//modules/control:actuators",
+        "//tareeq/control:unicycle_actuator",
         "@gtest//:gtest",
         "@gtest//:gtest_main"
     ],

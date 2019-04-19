@@ -13,13 +13,22 @@
 #)
 
 cc_library(
-    name = "actuators",
-    srcs = ["unicycle_driver.cc"],	
-    hdrs = ["actuators.h"],
+    name = "unicycle_actuator",
+    srcs = glob([
+        "motor.h",
+        "motor.cc",
+        "unicycle_driver.cc",
+        "unicycle_driver.h",
+    ]),
+    hdrs = glob([
+        "interfaces/actuators.h"
+    ]),
     deps = [
-      "//tareeq/gpio:gpio"
+        "//tareeq/gpio:gpio"
     ],
-    visibility = ["//visibility:public"],
+    visibility = [
+        "//visibility:public",
+    ],
 )
 
 cc_binary(
@@ -27,6 +36,6 @@ cc_binary(
     srcs = ["agent.h", "agent.cc"],
     linkstatic=False,
     deps = [
-	"//modules/control:actuators"
+	"//tareeq/control:actuators"
     ],
 )
