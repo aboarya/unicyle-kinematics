@@ -1,12 +1,22 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "../interfaces/actuator.h"
+#include "tareeq/mocks/motor.h"
+#include "../unicycle_driver.h"
 
 namespace tareeq {
   namespace control {
 
-    TEST(MotorTest, CheckValidDecoupling) {
+    using namespace tareeq::mocks;
+    
+    class UniCDriverTest : public testing::Test
+    {
+    public:
+      MockMotor m;
+      //UniCycleDriver driver{m, m};
+    };
+
+    TEST_F(UniCDriverTest, CheckValidConstruction) {
 
       EXPECT_EQ(true, true); // TO-DO: make Run() return boolean
 

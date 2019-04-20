@@ -21,3 +21,18 @@ cc_library(
         "//visibility:public",
     ],
 )
+
+cc_library(
+    name = "robot_motion_mocks",
+    srcs = glob([
+        "motor.h",
+	"state.h",
+    ]),
+    hdrs = glob([
+        "motor.h",
+	"state.h",
+    ]),
+    visibility = [
+        "//visibility:public",
+    ],
+)

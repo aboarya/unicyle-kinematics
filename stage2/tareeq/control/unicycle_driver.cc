@@ -1,7 +1,45 @@
-/* #ifndef TAREEQ_MOTOR_ */
-/* #define TAREEQ_MOTOR_ */
+#include "unicycle_driver.h"
 
-/* #include <memory> */
+namespace tareeq {
+  namespace control {
+    
+    UniCycleDriver::UniCycleDriver(Motor& right_motor, Motor& left_motor):
+      right_motor_(std::move(right_motor)),
+      left_motor_(std::move(left_motor)){};
+
+    /**
+    */
+    bool UniCycleDriver::Apply(const State& error)
+    {
+      return true;
+    }
+
+    /**
+    */
+    bool UniCycleDriver::Start()
+    {
+      right_motor_.Start();
+      left_motor_.Start();
+      return (
+	      right_motor_.IsStarted() &&
+	      left_motor_.IsStarted()
+	      );
+    }
+
+    bool UniCycleDriver::Stop()
+    {
+      right_motor_.Stop();
+      left_motor_.Stop();
+      return (
+	      !right_motor_.IsStarted() &&
+	      !left_motor_.IsStarted()
+	      );
+    }
+    
+    
+  } // end namespace control
+} // end namespace tareeq
+
 
 /* namespace tareeq { */
 /*   namespace control { */

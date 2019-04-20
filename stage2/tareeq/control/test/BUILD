@@ -6,6 +6,7 @@ cc_test (
     ],
     deps = [
         "//tareeq/control:robot_motion_model",
+	"//tareeq/mocks:robot_motion_mocks",
         "@gtest//:gtest",
         "@gtest//:gtest_main"
     ],

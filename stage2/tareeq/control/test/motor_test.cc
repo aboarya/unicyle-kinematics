@@ -8,7 +8,6 @@
 #include "tareeq/mocks/pwm.h"
 #include "tareeq/mocks/output.h"
 
-
 namespace tareeq {
   namespace control {
 
@@ -26,10 +25,11 @@ namespace tareeq {
       
     };
     TEST_F(MotorTest, CheckConstructor) {
-      
-      EXPECT_EQ(true, r_motor.SpinForward());
-      EXPECT_EQ(true, r_motor.SpinBackward());
-      EXPECT_EQ(true, r_motor.Stop());
+
+      ASSERT_EQ(true, r_motor.Start());
+      ASSERT_EQ(true, r_motor.SpinForward());
+      ASSERT_EQ(true, r_motor.SpinBackward());
+      ASSERT_EQ(true, r_motor.Stop());
       
     }
 
