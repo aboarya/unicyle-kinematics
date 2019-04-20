@@ -5,6 +5,7 @@ cc_test (
     ],
     deps = [
         "//tareeq/gpio:gpio",
+	"//tareeq/mocks:gpio_mocks",
         "@gtest//:gtest",
         "@gtest//:gtest_main",
     ],

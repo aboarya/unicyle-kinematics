@@ -1,6 +1,7 @@
 #pragma once
 
-#include "modules/control/interfaces/actuator.h"
+#include "motor.h"
+#include "interfaces/actuator.h"
 
 namespace tareeq {
   namespace control {

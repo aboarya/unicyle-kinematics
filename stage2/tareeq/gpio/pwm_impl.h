@@ -36,7 +36,7 @@ namespace tareeq {
 	  this->slice_time_ = this->base_time_ / this->max_cycle_;
 	  this->CalculateDuration();
 	  
-	  // activate the robot
+	  // activate this pin
 	  this->is_running_ = true;
 	};
 

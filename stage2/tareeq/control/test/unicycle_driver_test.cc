@@ -3,7 +3,6 @@
 
 #include "../interfaces/actuator.h"
 
-
 namespace tareeq {
   namespace control {
 

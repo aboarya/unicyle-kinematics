@@ -1,14 +1,3 @@
-#cc_test (
-#    name = "motor_test",
-#    srcs = [
-#        "motor_test.cc",
-#    ],
-#    deps = [
-#    	"//modules/control:all",
-#        "@gtest//:gtest",
-#        "@gtest//:gtest_main",
-#    ],
-#)
 
 cc_test (
     name = "unicycle_actuator_test",
@@ -16,7 +5,20 @@ cc_test (
         "unicycle_driver_test.cc",
     ],
     deps = [
-        "//tareeq/control:unicycle_actuator",
+        "//tareeq/control:robot_motion_model",
+        "@gtest//:gtest",
+        "@gtest//:gtest_main"
+    ],
+)
+
+cc_test (
+    name = "motor_test",
+    srcs = [
+        "motor_test.cc",
+    ],
+    deps = [
+    	"//tareeq/mocks:gpio_pins_mocks",
+        "//tareeq/control:robot_motion_model",
         "@gtest//:gtest",
         "@gtest//:gtest_main"
     ],

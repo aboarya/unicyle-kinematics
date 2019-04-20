@@ -16,7 +16,7 @@ namespace tareeq {
       virtual void Start() = 0;
       virtual void Stop() = 0;      
       virtual void SetSpeed(double speed) = 0;
-      virtual const double &GetDutyCycle() = 0;
+      //virtual const double &GetDutyCycle() = 0;
       virtual void SetFrequency(double freq) = 0;
       virtual inline void CalculateDuration() = 0;
       

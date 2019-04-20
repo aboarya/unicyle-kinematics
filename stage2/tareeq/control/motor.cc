@@ -1,20 +1,60 @@
-// #include "motor.h"
-// #include "motor_impl.h"
+#include <memory>
 
-// #include "tareeq/gpio/pwm.h"
-// #include "tareeq/gpio/output.h"
+#include "motor.h"
 
-// namespace tareeq {
-//   namespace control {
-    
-//     std::unique_ptr<Motor> MakeMotor()
-//     {      
-//       auto speed_pin = tareeq::gpio::MakePwmPin();
-//       auto c_pin_a   = tareeq::gpio::MakeOutputPin();
-//       auto c_pin_b   = tareeq::gpio::MakeOutputPin();
+#include "tareeq/gpio/pwm.h"
+#include "tareeq/gpio/output.h"
+
+
+namespace tareeq {
+  namespace control {
+
+    using tareeq::gpio::Pwm;
+    using tareeq::gpio::Output;
+
+    /**
+     */
+    Motor::Motor(std::unique_ptr<Pwm>&& speed_pin, std::unique_ptr<Output>&& control_a, std::unique_ptr<Output>&& control_b) :
+      speed_pin_(std::move(speed_pin)),
+      control_a_(std::move(control_a)),
+      control_b_(std::move(control_b)) {};
+
+    /**
+     */
+    bool Motor::SpinForward()
+    {
+      this->control_a_->On();
+      this->control_b_->Off();
       
-//       return std::make_unique<MotorImpl<tareeq::gpio::Pwm, tareeq::gpio::Output>>(*speed_pin, *c_pin_a, *c_pin_b);
-//     }
+      this->speed_pin_->Start();
+      
+      return true; // TO-DO : actual success validation
+    }
+
+    /**
+     */
+    bool Motor::SpinBackward()
+    {
+      this->control_a_->Off();
+      this->control_b_->On();
+      
+      this->speed_pin_->Start();
+      
+      return true; // TO-DO : actual success validation
+    }
     
-//   } // namespace control  
-// } // namespace tareeq
+    /**
+     */
+    bool Motor::Stop()
+    {
+      this->speed_pin_->Stop();
+      this->control_a_->Off();
+      this->control_b_->Off();
+
+      return true; // TO-DO : actual success validation
+    };
+
+    
+    
+  } // end namespace control  
+} // end namespace tareeq
