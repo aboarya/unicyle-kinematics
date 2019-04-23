@@ -4,8 +4,8 @@ namespace tareeq {
   namespace control {
     
     UniCycleDriver::UniCycleDriver(Motor& right_motor, Motor& left_motor):
-      right_motor_(std::move(right_motor)),
-      left_motor_(std::move(left_motor)){};
+      right_motor_(right_motor),
+      left_motor_(left_motor){};
 
     /**
     */
@@ -18,12 +18,14 @@ namespace tareeq {
     */
     bool UniCycleDriver::Start()
     {
+      
       right_motor_.Start();
-      left_motor_.Start();
-      return (
-	      right_motor_.IsStarted() &&
-	      left_motor_.IsStarted()
-	      );
+      //left_motor_.Start();
+      //return (
+      //	      right_motor_.IsStarted() &&
+      //      left_motor_.IsStarted()
+      //      );
+      return true;
     }
 
     bool UniCycleDriver::Stop()

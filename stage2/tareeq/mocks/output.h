@@ -8,6 +8,7 @@ namespace tareeq {
     class MockOutput : public tareeq::gpio::Output
     {
     public:
+      
       MOCK_METHOD0(On, void());
       MOCK_METHOD0(Off, void());
 

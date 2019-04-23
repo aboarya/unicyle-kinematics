@@ -17,7 +17,7 @@ namespace tareeq {
     Motor::Motor(std::unique_ptr<Pwm>&& speed_pin, std::unique_ptr<Output>&& control_a, std::unique_ptr<Output>&& control_b) :
       speed_pin_(std::move(speed_pin)),
       control_a_(std::move(control_a)),
-      control_b_(std::move(control_b)) {};
+      control_b_(std::move(control_b)){};
     
     /**
     */

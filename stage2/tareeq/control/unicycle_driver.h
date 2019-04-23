@@ -9,8 +9,8 @@ namespace tareeq {
 
     class UniCycleDriver : public Actuator {
 
-      Motor right_motor_;
-      Motor left_motor_;
+      Motor& right_motor_;
+      Motor& left_motor_;
 
       bool is_driving_forward_ = false;
       

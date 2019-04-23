@@ -12,14 +12,27 @@ namespace tareeq {
     class UniCDriverTest : public testing::Test
     {
     public:
-      MockMotor m;
-      //UniCycleDriver driver{m, m};
+      // Motor r{
+      // 	std::make_unique<MockPwm>(),
+      // 	  std::make_unique<MockOutput>(),
+      // 	  std::make_unique<MockOutput>()
+      // 	  };
+
+      // Motor l{
+      // 	std::make_unique<MockPwm>(),
+      // 	  std::make_unique<MockOutput>(),
+      // 	  std::make_unique<MockOutput>()
+      // 	  };
+
+      MockMotor r;
+      MockMotor l;
+      UniCycleDriver driver{r, l};
     };
 
     TEST_F(UniCDriverTest, CheckValidConstruction) {
 
-      EXPECT_EQ(true, true); // TO-DO: make Run() return boolean
-
+      EXPECT_EQ(true, driver.Start()); // TO-DO: make Run() return boolean
+      
     }
 
   } // end namespace control

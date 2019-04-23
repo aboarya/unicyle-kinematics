@@ -5,6 +5,7 @@
 
 namespace tareeq {
   namespace gpio {
+    
     class Output
     {
     public:

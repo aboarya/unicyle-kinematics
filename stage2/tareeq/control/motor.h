@@ -19,10 +19,12 @@ namespace tareeq {
       std::unique_ptr<Output> control_b_;
       
     public:
-      //Motor() = default;
-      //~Motor() = default;
-      //Motor(const Motor&) = default;
-      
+      Motor() = default;
+      ~Motor() = default;      
+      Motor(Motor&&) = default;
+
+
+     
       Motor(std::unique_ptr<Pwm>&& speed_pin, std::unique_ptr<Output>&& control_a, std::unique_ptr<Output>&& control_b);
 
       bool Start();
