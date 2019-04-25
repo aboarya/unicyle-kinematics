@@ -15,6 +15,8 @@ namespace tareeq {
 
       virtual void Update(const std::unordered_map<std::string, double>& values);
       virtual void Update(const std::unordered_map<std::string, Sensor>& sensors);
+      virtual const std::unordered_map<std::string, double>& GetRep();
+      virtual const std::unordered_map<std::string, double> operator- (const State& state);
   
     private:
       std::unordered_map<std::string, double> values_;

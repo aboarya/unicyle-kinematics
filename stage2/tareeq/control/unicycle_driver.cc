@@ -1,3 +1,6 @@
+#include <iostream>
+#include <string>
+#include <unordered_map>
 #include "unicycle_driver.h"
 
 namespace tareeq {
@@ -11,21 +14,28 @@ namespace tareeq {
     */
     bool UniCycleDriver::Apply(const State& error)
     {
-      return true;
+      std::unordered_map<std::string, double> map = error.GetRep();
+
+      if (map.find("w_r") == map.end() || map.find("w_l") == map.end())
+	{
+	  std::cout << ">>>>>>>>>>>> ERROR: unable to find left/right motor wheel angular velocity commands" << std::endl;
+	  return false;
+	}
+
+      return right_motor.SetSpeed(map["w_r"]) && left_motor.SetSpeed(map["w_l"]);
     }
 
     /**
     */
     bool UniCycleDriver::Start()
-    {
-      
+    {      
       right_motor_.Start();
-      //left_motor_.Start();
-      //return (
-      //	      right_motor_.IsStarted() &&
-      //      left_motor_.IsStarted()
-      //      );
-      return true;
+      left_motor_.Start();
+      return (
+      	      right_motor_.IsStarted() &&
+	      left_motor_.IsStarted()
+	      );
+      //return true;
     }
 
     bool UniCycleDriver::Stop()

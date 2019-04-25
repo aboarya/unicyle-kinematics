@@ -43,7 +43,7 @@ namespace tareeq {
 
     
     /**
-    */
+     */
     bool Motor::SpinForward()
     {
       if (!is_started_)
@@ -61,6 +61,21 @@ namespace tareeq {
       this->speed_pin_->Start();
 
       return is_spin_forward_;
+    }
+
+
+    /**
+     */
+    bool Motor::SetSpeed(double w)
+    {
+      if (!is_started_)
+	{
+	  // TO-DO: log error or alert
+	  return false;
+	}
+      this->speed_pin_->SetSpeed(w);
+
+      return is_started_;
     }
 
     /**

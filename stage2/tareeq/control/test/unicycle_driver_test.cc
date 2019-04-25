@@ -1,3 +1,6 @@
+#include <string>
+#include <unordered_map>
+
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
@@ -12,27 +15,26 @@ namespace tareeq {
     class UniCDriverTest : public testing::Test
     {
     public:
-      // Motor r{
-      // 	std::make_unique<MockPwm>(),
-      // 	  std::make_unique<MockOutput>(),
-      // 	  std::make_unique<MockOutput>()
-      // 	  };
 
-      // Motor l{
-      // 	std::make_unique<MockPwm>(),
-      // 	  std::make_unique<MockOutput>(),
-      // 	  std::make_unique<MockOutput>()
-      // 	  };
+      void SetUp() override {
+	m["w_r"] = 1.5;
+	m["w_l"] = 1.5;
+	s{MockState(m)};
+      }
 
+      
+      MockState s;
       MockMotor r;
       MockMotor l;
       UniCycleDriver driver{r, l};
+      std::unordred_map<std::string, double> m;
     };
 
     TEST_F(UniCDriverTest, CheckValidConstruction) {
 
-      EXPECT_EQ(true, driver.Start()); // TO-DO: make Run() return boolean
-      
+      EXPECT_EQ(true, driver.Start());
+      EXPECT_EQ(true, driver.Apply(s));
+      EXPECT_EQ(true, driver.Stop());
     }
 
   } // end namespace control

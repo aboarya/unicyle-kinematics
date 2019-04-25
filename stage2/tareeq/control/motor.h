@@ -19,7 +19,7 @@ namespace tareeq {
       std::unique_ptr<Output> control_b_;
       
     public:
-      Motor() = default;
+      //Motor() = default;
       ~Motor() = default;      
       Motor(Motor&&) = default;
 
@@ -31,6 +31,7 @@ namespace tareeq {
       bool Stop();
       bool SpinForward();
       bool SpinBackward();
+      bool SetSpeed(double w);
 
       inline const bool IsStarted(){return is_started_;};
       inline const bool IsSpinForward(){return is_spin_forward_;};

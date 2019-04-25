@@ -4,9 +4,10 @@ cc_test (
     srcs = [
         "unicycle_driver_test.cc",
     ],
-    deps = [
+    deps = [    	
         "//tareeq/control:robot_motion_model",
 	"//tareeq/mocks:robot_motion_mocks",
+	"//tareeq/mocks:gpio_pins_mocks",
         "@gtest//:gtest",
         "@gtest//:gtest_main"
     ],
