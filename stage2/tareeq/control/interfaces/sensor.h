@@ -17,7 +17,7 @@ namespace tareeq {
       virtual bool IsActive() = 0;
 
       virtual void Init(const SensorConfig& config) = 0;
-      virtual std::unordered_map<std::string, double> const ReadMeasurement() = 0;
+      virtual const std::unordered_map<std::string, double>& ReadMeasurement() = 0;
   
     };
     

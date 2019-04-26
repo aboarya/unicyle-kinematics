@@ -66,7 +66,7 @@ namespace tareeq {
 
     /**
      */
-    bool Motor::SetSpeed(double w)
+    bool Motor::SetSpeed(const double w)
     {
       if (!is_started_)
 	{

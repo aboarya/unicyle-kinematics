@@ -22,7 +22,7 @@ namespace tareeq {
 	  return false;
 	}
 
-      return right_motor.SetSpeed(map["w_r"]) && left_motor.SetSpeed(map["w_l"]);
+      return right_motor_.SetSpeed(map["w_r"]) && left_motor_.SetSpeed(map["w_l"]);
     }
 
     /**

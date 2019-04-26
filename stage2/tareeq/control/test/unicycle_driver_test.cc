@@ -6,6 +6,7 @@
 
 #include "tareeq/mocks/motor.h"
 #include "../unicycle_driver.h"
+#include "tareeq/mocks/unicycle.h"
 
 namespace tareeq {
   namespace control {
@@ -22,8 +23,9 @@ namespace tareeq {
 	s{MockState(m)};
       }
 
-      
-      MockState s;
+
+      MockSensor s
+      MockState st;
       MockMotor r;
       MockMotor l;
       UniCycleDriver driver{r, l};
@@ -33,7 +35,7 @@ namespace tareeq {
     TEST_F(UniCDriverTest, CheckValidConstruction) {
 
       EXPECT_EQ(true, driver.Start());
-      EXPECT_EQ(true, driver.Apply(s));
+      EXPECT_EQ(true, driver.Apply(st));
       EXPECT_EQ(true, driver.Stop());
     }
 

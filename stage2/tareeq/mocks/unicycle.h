@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+#include <unordered_map>
+
 #include "tareeq/control/unicycle_model.h"
 
 namespace tareeq {
@@ -10,7 +12,7 @@ namespace tareeq {
     {
     public:
     MockState(std::unordered_map<std::string, double> values)
-      : tareeq::control::UnicycleModel(std::unordered_map<std::string, double> values)
+      : tareeq::control::UnicycleModel(values)
 	{};
       
       MOCK_METHOD1(Update, void(std::unordered_map<std::string, tareeq::control::Sensor> values));

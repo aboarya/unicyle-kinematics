@@ -31,7 +31,7 @@ namespace tareeq {
       bool Stop();
       bool SpinForward();
       bool SpinBackward();
-      bool SetSpeed(double w);
+      bool SetSpeed(const double w);
 
       inline const bool IsStarted(){return is_started_;};
       inline const bool IsSpinForward(){return is_spin_forward_;};
