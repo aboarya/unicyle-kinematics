@@ -3,6 +3,7 @@
 #include <string>
 #include <unordered_map>
 
+#include "sensor.h"
 #include "tareeq/control/unicycle_model.h"
 
 namespace tareeq {
@@ -10,13 +11,23 @@ namespace tareeq {
     
     class MockState : public tareeq::control::UnicycleModel
     {
-    public:
-    MockState(std::unordered_map<std::string, double> values)
-      : tareeq::control::UnicycleModel(values)
-	{};
+      //std::unordered_map<std::string, std::unique_ptr<MockSensor>> sensors_;
       
-      MOCK_METHOD1(Update, void(std::unordered_map<std::string, tareeq::control::Sensor> values));
-      MOCK_METHOD1(Update, void(std::unordered_map<std::string, double> values));
+    public:
+    MockState(std::unordered_map<std::string, std::unique_ptr<MockSensor>&&> sensors)
+      : tareeq::control::UnicycleModel(sensors)
+    	{};
+
+      /* MockState() */
+      /* 	{ */
+      /* 	  std::unique_ptr<MockSensor> sensor = std::make_unique<MockSensor>(); */
+      /* 	  sensors_["odometry"] = std::move(sensor); */
+      /* 	  tareeq::control::UnicycleModel(sensors_); */
+      /* 	}; */
+      
+      //MOCK_METHOD1(Update, void(std::unordered_map<std::string, tareeq::control::Sensor> values));
+      //MOCK_METHOD1(Update, void(std::unordered_map<std::string, double> values));
+      MOCK_METHOD0(Update, void());
       MOCK_METHOD0(GetRep, std::unordered_map<std::string, double>());
 
     };

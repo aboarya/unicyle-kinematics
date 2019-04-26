@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <memory>
 #include <unordered_map>
 
 #include "tareeq/control/interfaces/state.h"
@@ -12,12 +13,15 @@ namespace tareeq {
     class UnicycleModel : public State {
 
       // private fields;
-      const std::unordered_map<std::string, Sensor>& sensors_;
+      std::unordered_map<std::string, std::unique_ptr<Sensor>> sensors_;
       
     public:
-      UnicycleModel(const std::unordered_map<std::string, Sensor>& sensors);
+      
+      //UnicycleModel() = default;
+      
+      UnicycleModel(std::unordered_map<std::string, std::unique_ptr<Sensor>&&> sensors);
 
-      virtual void Update(const std::unordered_map<std::string, double>& values);
+      //virtual void Update(const std::unordered_map<std::string, double>& values);
       //virtual void Update(const std::unordered_map<std::string, Sensor>& sensors);
       virtual void Update();
       virtual const std::unordered_map<std::string, double>& GetRep() const;

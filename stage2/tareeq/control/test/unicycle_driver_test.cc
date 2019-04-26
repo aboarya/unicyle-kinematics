@@ -4,8 +4,10 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "tareeq/mocks/motor.h"
 #include "../unicycle_driver.h"
+
+#include "tareeq/mocks/motor.h"
+#include "tareeq/mocks/sensor.h"
 #include "tareeq/mocks/unicycle.h"
 
 namespace tareeq {
@@ -20,16 +22,16 @@ namespace tareeq {
       void SetUp() override {
 	m["w_r"] = 1.5;
 	m["w_l"] = 1.5;
-	s{MockState(m)};
+	s = MockState(m);
       }
 
 
-      MockSensor s
+      MockSensor s;
       MockState st;
       MockMotor r;
       MockMotor l;
       UniCycleDriver driver{r, l};
-      std::unordred_map<std::string, double> m;
+      std::unordered_map<std::string, double> m;
     };
 
     TEST_F(UniCDriverTest, CheckValidConstruction) {

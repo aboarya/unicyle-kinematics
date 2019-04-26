@@ -22,9 +22,9 @@ namespace tareeq {
 
       OdometrySensor(std::unique_ptr<Input>&& encoder_r, std::unique_ptr<Input>&& encoder_l);
       
-      virtual bool IsActive();
+      //virtual bool IsActive();
       
-      virtual void Init(const SensorConfig& config);
+      //virtual void Init(const SensorConfig& config);
       
       virtual const std::unordered_map<std::string, double>& ReadMeasurement();
       

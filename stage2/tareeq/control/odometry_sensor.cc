@@ -3,16 +3,16 @@
 namespace tareeq {
   namespace control {
 
-    OdometrySensor::IsActive()
-    {
+    //OdometrySensor::IsActive()
+    //{
       // STUB : TO-DO add code
-      return true;
-    }
+      //return true;
+    //}
 
-    OdometrySensor::Init(const SensorConfig& config)
-    {
+    //OdometrySensor::Init(const SensorConfig& config)
+    //{
       // STUB : TO-DO add code
-    }
+    //}
 
     const std::unordered_map<std::string, double>& OdometrySensor::ReadMeasurement()
     {

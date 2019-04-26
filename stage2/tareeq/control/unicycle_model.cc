@@ -3,21 +3,20 @@
 #include <unordered_map>
 
 #include "tareeq/control/unicycle_model.h"
-#include "tareeq/control/interfaces/sensor.h"
 #include "tareeq/control/interfaces/state.h"
+#include "tareeq/control/interfaces/sensor.h"
 
 namespace tareeq {
   namespace control {
     
 
-    UnicycleModel::UnicycleModel(const std::unordered_map<std::string, Sensor>& sensors)
-      : sensors_{sensors}
+    UnicycleModel::UnicycleModel(std::unordered_map<std::string, std::unique_ptr<Sensor>&&> sensors)
     {}
       
     /**
      */
-    void UnicycleModel::Update(const std::unordered_map<std::string, double>& values)
-    {}
+    //void UnicycleModel::Update(const std::unordered_map<std::string, double>& values)
+    //{}
     
     /**
      */
