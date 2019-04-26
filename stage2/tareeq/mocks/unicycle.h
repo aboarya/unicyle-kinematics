@@ -9,14 +9,14 @@
 namespace tareeq {
   namespace mocks {
     
-    class MockState : public tareeq::control::UnicycleModel
+    class MockState : public tareeq::control::State
     {
       //std::unordered_map<std::string, std::unique_ptr<MockSensor>> sensors_;
       
     public:
-    MockState(std::unordered_map<std::string, std::unique_ptr<MockSensor>&&> sensors)
-      : tareeq::control::UnicycleModel(sensors)
-    	{};
+    /* MockState(std::unordered_map<std::string, std::unique_ptr<MockSensor>> sensors) */
+    /*   : tareeq::control::UnicycleModel(sensors) */
+    /* 	{}; */
 
       /* MockState() */
       /* 	{ */

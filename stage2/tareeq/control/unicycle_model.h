@@ -19,7 +19,7 @@ namespace tareeq {
       
       //UnicycleModel() = default;
       
-      UnicycleModel(std::unordered_map<std::string, std::unique_ptr<Sensor>&&> sensors);
+      UnicycleModel(std::unordered_map<std::string, std::unique_ptr<Sensor>> sensors);
 
       //virtual void Update(const std::unordered_map<std::string, double>& values);
       //virtual void Update(const std::unordered_map<std::string, Sensor>& sensors);

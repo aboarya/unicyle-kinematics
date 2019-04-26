@@ -10,7 +10,7 @@ namespace tareeq {
   namespace control {
     
 
-    UnicycleModel::UnicycleModel(std::unordered_map<std::string, std::unique_ptr<Sensor>&&> sensors)
+    UnicycleModel::UnicycleModel(std::unordered_map<std::string, std::unique_ptr<Sensor>> sensors)
     {}
       
     /**

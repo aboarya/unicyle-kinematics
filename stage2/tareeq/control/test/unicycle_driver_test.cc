@@ -8,7 +8,7 @@
 
 #include "tareeq/mocks/motor.h"
 #include "tareeq/mocks/sensor.h"
-#include "tareeq/mocks/unicycle.h"
+#include "tareeq/mocks/state.h"
 
 namespace tareeq {
   namespace control {
@@ -20,9 +20,9 @@ namespace tareeq {
     public:
 
       void SetUp() override {
-	m["w_r"] = 1.5;
-	m["w_l"] = 1.5;
-	s = MockState(m);
+	//m["w_r"] = 1.5;
+	//m["w_l"] = 1.5;
+	//s = MockState(m);
       }
 
 

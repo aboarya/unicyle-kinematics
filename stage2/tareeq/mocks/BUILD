@@ -16,6 +16,8 @@ cc_library(
     hdrs = glob([
         "pwm.h",
 	"output.h",
+	"sensor.h",
+	"input.h"
     ]),
     visibility = [
         "//visibility:public",
