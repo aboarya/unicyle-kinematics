@@ -12,6 +12,8 @@ cc_library(
     srcs = glob([
         "pwm.h",
 	"output.h",
+	"sensor.h",
+	"input.h"
     ]),
     hdrs = glob([
         "pwm.h",
