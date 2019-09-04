@@ -1,6 +1,6 @@
 # unicyle-kinematics
 
-This is a C++ to implement a Go-To-Goal behavior on a Raspberry Pi 3 robot using **only** wheel encoders.
+This is a C++ project to implement a Go-To-Goal behavior on a Raspberry Pi 3 robot using **only** wheel encoders.
 
 # Features
 - PID Control using C++
